@@ -48,16 +48,20 @@ button {
   text-align: center;
 }
 
+.movie-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 325px;
+  /* display: flex;
+  justify-content: center; */
+}
 .card {
+  height: 200px;
+  width: 200px;
   margin: 45px 25px 0px 0px;
 }
 
-.card img {
+.card-poster {
   height: 440px;
   width: 295px;
-}
-
-.movie-cards {
-  display: flex;
-  justify-content: center;
 }
