@@ -1,5 +1,5 @@
 "use strict";
-const APIURL =
+const popular =
   "https://api.themoviedb.org/3/movie/popular?api_key=a1fdd1a0c8c57f436d5a3210f0a486fe&language=en-US&page=1";
 const SEARCH_MOVIE =
   "https://api.themoviedb.org/3/search/movie?api_key=a1fdd1a0c8c57f436d5a3210f0a486fe&query=";
@@ -12,24 +12,44 @@ let totalPages = 100;
 let nextPage = 2;
 let lastUrl = "";
 
+window.onload = loadPopular(popular);
+
+function loadPopular(url) {
+  lastUrl = url;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      for (let idk = 0; idk < data.results.length; idk++) {
+        let card = document.createElement("card");
+        card.classList.add("card");
+        document.querySelector(".movie-cards").appendChild(card);
+
+        let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
+        card.innerHTML = ` <h3>${data.results[idk].title}</h3>
+  <img src="${cardPoster}" class="card-poster" />`;
+      }
+    });
+}
+
 form.addEventListener("submit", (e) => {
   console.log("works");
   e.preventDefault();
   let searchInput = searchBar.value;
+
   if (searchInput !== "") {
+    document.querySelector(".movie-cards").innerHTML = ``;
     loadMovies(SEARCH_MOVIE, searchInput);
-    // location.reload;
     // if i do the thing in the video get rid of the search input from the bottom I think that would work
   } else {
     alert("Put Something in the box");
+    // location.reload(true);
   }
 });
 
 // Use a for loop idiot
 
-const moives = [];
+// let moives = [];
 
-// lastUrl = url;
 function loadMovies(url, searchInput) {
   lastUrl = url + searchInput;
   fetch(
@@ -41,7 +61,7 @@ function loadMovies(url, searchInput) {
     .then((res) => res.json())
     .then((data) => {
       for (let idk = 0; idk < data.results.length; idk++) {
-        moives.push(data.results[idk]);
+        // moives.push(data.results[idk]);
 
         if (data.results.length !== 0) {
           let currentPage = data.page;
@@ -55,23 +75,12 @@ function loadMovies(url, searchInput) {
 
         let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
         card.innerHTML = ` <h3>${data.results[idk].title}</h3>
-        <img src="${cardPoster}" class="card-poster" />
-        
-        `;
-
-        // for each movie
-
-        // const markup = `
-        // <img src=${data.results[idk].poster_path} />
-        // `;
-        // console.log(data.results);
-        // console.log(data.results[idk].original_title);
-        // console.log(data.results[idk].poster_path);
-        // console.log(cardPoster);
+      <img src="${cardPoster}" class="card-poster" />
+      
+      `;
       }
-      // console.log(moives);
-      // console.log(lastUrl);
     });
+  return true;
 }
 
 loadBTN.addEventListener("click", () => {
@@ -88,6 +97,7 @@ function pageCall(page) {
   if (key[0] != "page") {
     let url = lastUrl + "&page=" + page;
     loadMovies(url);
+    // loadPopular(url);
   } else {
     key[1] = page.toString();
     let a = key.join("=");
@@ -95,5 +105,11 @@ function pageCall(page) {
     let b = queryParams.join("&");
     let url = urlSplit[0] + "?" + b;
     loadMovies(url);
+    // loadPopular(url);
+  }
+
+  if (loadPopular()) {
+    pageCall(loadPopular);
+    // figure this out
   }
 }
