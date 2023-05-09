@@ -24,11 +24,21 @@ function loadPopular(url) {
         card.classList.add("card");
         document.querySelector(".movie-cards").appendChild(card);
 
+        if (data.results.length !== 0) {
+          let currentPage = data.page;
+          nextPage = currentPage + 1;
+          // let prevPage = currentPage - 1;
+          totalPages = data.total_pages;
+        }
+
+        // Dont repeat yourself
+
         let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
         card.innerHTML = ` <h3>${data.results[idk].title}</h3>
   <img src="${cardPoster}" class="card-poster" />`;
       }
     });
+  return true;
 }
 
 form.addEventListener("submit", (e) => {
@@ -96,20 +106,20 @@ function pageCall(page) {
   let key = queryParams[queryParams.length - 1].split("=");
   if (key[0] != "page") {
     let url = lastUrl + "&page=" + page;
-    loadMovies(url);
-    // loadPopular(url);
+    // loadMovies(url);
+    loadPopular(url);
   } else {
     key[1] = page.toString();
     let a = key.join("=");
     queryParams[queryParams.length - 1] = a;
     let b = queryParams.join("&");
     let url = urlSplit[0] + "?" + b;
-    loadMovies(url);
-    // loadPopular(url);
+    // loadMovies(url);
+    loadPopular(url);
   }
 
-  if (loadPopular()) {
-    pageCall(loadPopular);
-    // figure this out
-  }
+  // if (loadPopular()) {
+  //   pageCall(loadPopular);
+  //   // figure this out
+  // }
 }
