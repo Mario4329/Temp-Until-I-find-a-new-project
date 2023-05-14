@@ -29,19 +29,30 @@ button {
 }
 
 .upcoming {
+  /* display: flex; */
+  background-color: purple;
   width: auto;
+  height: 725px;
+  /* height: 700px; */
   /* margin-top: 22px; */
   /* How to do this without it pushing */
 }
 
-.upcomingImg {
+p {
+  font-size: 22px;
+}
+
+.bannerImg {
+  display: flex;
+
+  text-align: center;
   width: 100%;
-  height: 625px;
-  position: relative;
-  background-image: url(Imgs/background.png);
+
+  /* position: relative; */
+  /* background-image: url(Imgs/background.png); */
   /* Placeholder */
-  background-repeat: no-repeat;
-  background-size: cover;
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
 }
 .lowertitle {
   margin-top: 30px;

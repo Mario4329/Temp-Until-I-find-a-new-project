@@ -31,15 +31,39 @@ function loadPopular(url) {
           totalPages = data.total_pages;
         }
 
+        moives.push(data.results[idk]);
+        if (data.results[idk].vote_average > 7.0) {
+          // console.log(data.results[idk].vote_average);
+          let randomMovie = moives[Math.floor(Math.random() * moives.length)];
+          console.log(randomMovie);
+        }
+
         // Dont repeat yourself
 
         let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
         card.innerHTML = ` <h3>${data.results[idk].title}</h3>
-  <img src="${cardPoster}" class="card-poster" />`;
+        <img src="${cardPoster}" class="card-poster" />`;
       }
+      let upcomingImg = document.createElement("upcomingImg");
+      upcomingImg.classList.add("bannerImg");
+      document.querySelector(".upcoming").appendChild(upcomingImg);
+      let imgff = IMAGE_PATH + data.results[2].poster_path;
+      upcomingImg.innerHTML = `
+      <div class ="movieText">
+      
+      <h1>${data.results[2].title}</h1>
+      <p>${data.results[2].overview}</p>
+      
+      </div>
+      
+      <img src="${imgff}" />`;
+      console.log(data);
+      console.log(imgff);
     });
   return true;
+  // Use the vote average to pick from a certain score and randomly select movies with it.
 }
+let moives = [];
 
 form.addEventListener("submit", (e) => {
   console.log("works");
@@ -57,8 +81,6 @@ form.addEventListener("submit", (e) => {
 });
 
 // Use a for loop idiot
-
-// let moives = [];
 
 function loadMovies(url, searchInput) {
   lastUrl = url + searchInput;
@@ -85,9 +107,9 @@ function loadMovies(url, searchInput) {
 
         let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
         card.innerHTML = ` <h3>${data.results[idk].title}</h3>
-      <img src="${cardPoster}" class="card-poster" />
-      
-      `;
+        <img src="${cardPoster}" class="card-poster" />
+        
+        `;
       }
     });
   return true;
