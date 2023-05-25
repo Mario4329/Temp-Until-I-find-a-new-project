@@ -11,10 +11,11 @@ const loadBTN = document.getElementById("loadBtn");
 let totalPages = 100;
 let nextPage = 2;
 let lastUrl = "";
+let randomMovie = "";
 
 window.onload = loadPopular(popular);
 
-function loadPopular(url) {
+async function loadPopular(url) {
   lastUrl = url;
   fetch(url)
     .then((res) => res.json())
@@ -30,33 +31,34 @@ function loadPopular(url) {
           // let prevPage = currentPage - 1;
           totalPages = data.total_pages;
         }
-
-        moives.push(data.results[idk]);
-        if (data.results[idk].vote_average > 7.0) {
-          // console.log(data.results[idk].vote_average);
-          let randomMovie = moives[Math.floor(Math.random() * moives.length)];
-          console.log(randomMovie);
-        }
-
         // Dont repeat yourself
+        moives.push(data.results[idk]);
 
         let cardPoster = IMAGE_PATH + data.results[idk].poster_path;
         card.innerHTML = ` <h3>${data.results[idk].title}</h3>
         <img src="${cardPoster}" class="card-poster" />`;
       }
+      console.log(moives);
+
+      if (data.results[length].vote_average > 7.0) {
+        // console.log(data.results[idk].vote_average);
+        randomMovie = moives[Math.floor(Math.random() * moives.length)];
+        console.log(randomMovie.title);
+      }
+      console.log(randomMovie);
+
+      // console.log(data.results);
       let upcomingImg = document.createElement("upcomingImg");
       upcomingImg.classList.add("bannerImg");
       document.querySelector(".upcoming").appendChild(upcomingImg);
-      let imgff = IMAGE_PATH + data.results[2].poster_path;
+      let imgff = IMAGE_PATH + randomMovie.poster_path;
       upcomingImg.innerHTML = `
-      <div class ="movieText">
-      
-      <h1>${data.results[2].title}</h1>
-      <p>${data.results[2].overview}</p>
-      
-      </div>
-      
-      <img src="${imgff}" />`;
+      <img class="movieBanner"src="${imgff}" />
+      <div class="movieText">
+      <h1>${randomMovie.title}</h1>
+      <p>${randomMovie.overview}</p>
+      </div>`;
+
       console.log(data);
       console.log(imgff);
     });
